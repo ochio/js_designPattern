@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+<body>
+	<h1>Chat</h1>
+	<form action="" id="chatForm">
+		<label for="fromBox">Your Name:</label>
+		<input type="text" id="fromBox">
+		<label for="toBox">Send To:</label>
+		<input type="text" id="toBox">
+		<label for="chatBox">Message:</label>
+		<input type="text" id="chatBox">
+		<button action="submit">Chat</button>
+	</form>
+	<div id="chatResult"></div>
+	<script src="./mediator.js"></script>
+	<script>
+
+		$('#chatForm').on('submit', function(e){
+			e.preventDefault()
+			const text = $('#chatBox').val(),
+						from = $('#fromBox').val(),
+						to = $('#toBox').val()
+
+			mediator.Publish("newMessage", {message: text, from: from, to: to})
+		})
+		function displayChat(data){
+			const date = new Date(),
+						msg = `${data.from} said "${data.message}" to ${data.to}`
+			$('#chatResult').prepend("" + msg + "（" + date.toLocaleTimeString() + "）<br>")
+		}
+
+		function logChat(data){
+				console.log(data);
+		}
+
+		mediator.Subscribe("newMessage", displayChat)
+		mediator.Subscribe("newMessage", logChat)
+
+		function amITalkingToMyself(data){
+			return data.from === data.to
+		}
+		function iAmClearlyCrazy(data){
+			$('#chatResult').prepend('' + data.form + "is talking to himself")
+		}
+
+		mediator.Subscribe(amITalkingToMyself, iAmClearlyCrazy)
+	</script>
+</body>
+</html>

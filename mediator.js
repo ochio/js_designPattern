@@ -9,7 +9,6 @@ const mediator = (function () {
 		}
 		
 		topics[topic].push({context: this, callback: fn})
-		console.log(this.Publish);
 		return this
 	}
 
