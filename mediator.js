@@ -37,8 +37,3 @@ const mediator = (function () {
 		}
 	}
 })()
-
-mediator.Subscribe('aa', function () {
-	return 1 + 10
-})
-mediator.Publish('aa')
