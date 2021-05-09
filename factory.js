@@ -4,6 +4,13 @@ function Car(options){
 	this.color = options.color || "silver"
 }
 
+Car.prototype.drive = function(options){
+	this.drive = options.drive || "100km"
+}
+Car.prototype.breakDown = function(options){
+	this.breakDown = options.breakDown || "-10km"
+}
+
 function Truck(options){
 	this.state = options.state || 'used'
 	this.wheelSize = options.wheelSize || "large"
@@ -53,4 +60,33 @@ const myBigTruck = truckFactory.createVehicle({
 	wheelSize: "so big"
 })
 
-console.log(myBigTruck);
+const AbstractVehicleFactory = (function(){
+	const types = {}
+	return {
+		getVehicle: function(type, customizations){
+			const Vehicle = types[type]
+
+			return (Vehicle) ? new Vehicle(customizations) : null
+		},
+
+		registerVehicle: function(type, Vehicle){
+			const proto = Vehicle.prototype
+
+			if(proto.drive && proto.breakDown){
+				types[type] = Vehicle
+			}
+
+			return AbstractVehicleFactory
+		}
+	}
+})()
+
+AbstractVehicleFactory.registerVehicle('car', Car)
+const car2 = AbstractVehicleFactory.getVehicle("car", {
+	color: "lime",
+	state: "line new",
+	doors: 1
+})
+car2.drive({})
+car2.breakDown({})
+console.log(car2);
