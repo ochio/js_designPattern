@@ -14,5 +14,3 @@ const CarManager = {
 CarManager.execute = function (name){
 	return CarManager[name] && CarManager[name].apply({a:1}, [].slice.call(arguments, 1))
 }
-
-console.log(CarManager.execute('arrangeViewing', 'フェラーリ', "12345"));
