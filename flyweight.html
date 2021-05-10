@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<body>
+	<div id="container">
+		<div class="toggle" href="#">More info(Address)
+			<span class="info">Thi is more information</span>
+		</div>
+		<div class="toggle" href="#">
+			Even More info(Map)
+			<span class="info">
+				<div>maaap</div>
+			</span>
+		</div>
+	</div>
+
+	<script>
+		const stateManager = {
+			fly: function(){
+				const self = this
+				$('#container').unbind().on('click', function(e){
+					const target = $(e.target || e.srcElement)
+					if(target.is("div.toggle")){
+						self.handleClick(target)
+						console.log(0);
+					}
+				})
+			},
+			handleClick:function(elem){
+				elem.find("span").toggle("slow")
+			}
+		}
+		stateManager.fly()
+	</script>
+	<style>
+		/* span{
+			display: none;
+		}
+		span.slow{
+			display: block;
+		} */
+	</style>
+</body>
+</html>
